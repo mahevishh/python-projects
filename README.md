@@ -1,2 +1,2 @@
-# cli-calculator
- simple command-line calculator built in Python.
+# python peojects
+ Practicing Python by posting simple and fun projects.
