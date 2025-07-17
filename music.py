@@ -45,7 +45,16 @@ def set_dark_theme():
 
 
 # --- API Setup ---
-API_KEY = "AIzaSyA8MDmtaVB2sJk-78Ku6KOyVoZEusxhyrI"
+API_KEY = ""
+
+@st.cache_data(ttl=3600)
+def get_youtube_results(mood, genre):
+    query = f"{mood} {genre} playlist"
+    url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&q={query}&type=video&maxResults=20&key={API_KEY}"
+    response = requests.get(url)
+    results = response.json()
+    return results
+
 
 def fetch_youtube_videos(mood, genre, max_results=5):
     search_query = f"{mood} {genre} music playlist"
@@ -101,7 +110,9 @@ st.markdown("---")
 st.subheader(f"🎬 YouTube Music for *{mood}* + *{genre}*")
 
 # --- Fetch & Show Videos ---
-videos = fetch_youtube_videos(mood, genre, max_results=25)
+with st.spinner("🎧 Fetching YouTube videos..."):
+    videos = fetch_youtube_videos(mood, genre, max_results=15)
+
 
 
 if videos:
